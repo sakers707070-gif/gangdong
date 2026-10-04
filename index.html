@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>박춘선 의원과 함께하는 강동구</title>
+
   <link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff4f9a">
+  <meta name="theme-color" content="#ff4f9a">
+
   <style>
     * {
       box-sizing: border-box;
@@ -18,188 +20,331 @@
 
     body {
       font-family: Arial, "Noto Sans KR", sans-serif;
-      background: #f7f7f7;
-      color: #222;
+      background: #f4f6f8;
+      color: #172033;
     }
 
     .app {
+      width: 100%;
       max-width: 480px;
       min-height: 100vh;
-      margin: auto;
-      background: white;
+      margin: 0 auto;
+      background: #ffffff;
       padding-bottom: 85px;
     }
 
     /* 상단 */
-    header {
-      padding: 22px 20px 18px;
-      background: linear-gradient(135deg, #fff0f6, #eef7ff);
-    }
-
-    .small-title {
-      font-size: 15px;
-      font-weight: bold;
-      color: #555;
-    }
-
-    h1 {
-      font-size: 26px;
-      margin-top: 7px;
-      line-height: 1.3;
-    }
-
-    h1 span {
-      color: #e83e8c;
-    }
-
-    .subtitle {
-      margin-top: 8px;
-      color: #666;
-      font-size: 15px;
-    }
-
-    /* 메인 메시지 */
     .hero {
-      margin: 18px;
-      padding: 25px 20px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #ffe4ef, #e6f3ff);
-      text-align: center;
+      position: relative;
+      min-height: 235px;
+      padding: 28px 22px 25px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.97), rgba(231,246,255,.82)),
+        linear-gradient(160deg, #d9effa, #ffffff);
     }
 
-    .hero-icon {
-      font-size: 42px;
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      bottom: -70px;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: rgba(255, 79, 154, 0.08);
     }
 
-    .hero h2 {
-      margin-top: 8px;
-      font-size: 25px;
-      color: #d63384;
+    .hero-small {
+      position: relative;
+      z-index: 2;
+      font-size: 14px;
+      font-weight: 700;
+      color: #44536a;
+      margin-bottom: 8px;
     }
 
-    .hero p {
-      margin-top: 8px;
+    .hero h1 {
+      position: relative;
+      z-index: 2;
+      font-size: 35px;
+      line-height: 1.15;
+      letter-spacing: -2px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 span {
+      color: #ff4f9a;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 2;
+      font-size: 15px;
       line-height: 1.6;
-      color: #555;
+      color: #5c6678;
+    }
+
+    .photo-space {
+      position: absolute;
+      right: 18px;
+      bottom: 16px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 4px solid rgba(255,79,154,.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #9a657b;
+      font-size: 12px;
+      line-height: 1.4;
+      z-index: 1;
+      box-shadow: 0 8px 25px rgba(0,0,0,.08);
     }
 
     /* 핵심 메뉴 */
-    .main-menu {
+    .quick-wrap {
       padding: 0 18px;
+      margin-top: -15px;
+      position: relative;
+      z-index: 5;
     }
 
-    .menu-card {
+    .quick-menu {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 28px rgba(28,45,75,.12);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 18px 8px;
+    }
+
+    .quick-item {
+      text-align: center;
+      padding: 4px;
+      cursor: pointer;
+    }
+
+    .quick-item + .quick-item {
+      border-left: 1px solid #edf0f4;
+    }
+
+    .quick-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 8px;
+      border-radius: 15px;
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin-bottom: 12px;
-      padding: 18px;
-      border-radius: 18px;
-      text-decoration: none;
-      color: #222;
-      border: 1px solid #eee;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+      justify-content: center;
+      font-size: 24px;
+      background: #fff0f6;
     }
 
-    .menu-card .icon {
-      font-size: 31px;
-      width: 48px;
-      text-align: center;
-    }
-
-    .menu-card strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    .menu-card small {
-      color: #777;
-      font-size: 13px;
-    }
-
-    .report {
-      background: #fff0f4;
-    }
-
-    .wish {
+    .quick-item:nth-child(2) .quick-icon {
       background: #eef6ff;
     }
 
-    .solved {
-      background: #effaf3;
+    .quick-item:nth-child(3) .quick-icon {
+      background: #eefaf5;
     }
 
-    /* 보조 메뉴 */
-    .sub-menu {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .quick-title {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .quick-sub {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #8a93a2;
+    }
+
+    /* 공지 */
+    .notice {
+      margin: 22px 18px 0;
+      background: #f7f8fa;
+      border-radius: 14px;
+      padding: 13px 15px;
+      display: flex;
+      align-items: center;
       gap: 10px;
-      padding: 12px 18px;
     }
 
-    .sub-card {
-      padding: 17px 5px;
-      text-align: center;
-      border-radius: 15px;
-      background: #fafafa;
-      border: 1px solid #eee;
+    .notice-badge {
+      flex: none;
+      background: #172c55;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 20px;
+      padding: 5px 9px;
+    }
+
+    .notice-text {
       font-size: 13px;
-      font-weight: bold;
+      color: #4e5869;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
-    .sub-card span {
-      display: block;
-      font-size: 25px;
+    /* 섹션 */
+    .section {
+      padding: 26px 18px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .more {
+      font-size: 12px;
+      color: #8a93a2;
+    }
+
+    .talk-card {
+      border-radius: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fff0f6, #fff9fb);
+      border: 1px solid #ffe0ed;
+    }
+
+    .talk-card h3 {
+      font-size: 18px;
       margin-bottom: 7px;
     }
 
-    /* 최근 소식 */
-    .news {
-      padding: 20px 18px;
+    .talk-card p {
+      color: #6c7482;
+      font-size: 13px;
+      line-height: 1.6;
     }
 
-    .news h3 {
+    .talk-button {
+      margin-top: 14px;
+      border: 0;
+      border-radius: 20px;
+      padding: 9px 15px;
+      background: #ff4f9a;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* 의정활동 */
+    .activity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .activity {
+      min-height: 120px;
+      border-radius: 18px;
+      padding: 17px;
+      background: #f2f7ff;
+    }
+
+    .activity:nth-child(2) {
+      background: #f3faf6;
+    }
+
+    .activity-icon {
+      font-size: 25px;
       margin-bottom: 12px;
-      font-size: 18px;
     }
 
+    .activity h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .activity p {
+      font-size: 12px;
+      color: #7a8494;
+      line-height: 1.5;
+    }
+
+    /* 최근 소식 */
     .news-item {
-      padding: 14px 0;
-      border-bottom: 1px solid #eee;
+      padding: 15px 2px;
+      border-bottom: 1px solid #edf0f4;
+    }
+
+    .news-item strong {
+      display: block;
       font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .news-item span {
+      font-size: 12px;
+      color: #949ca9;
     }
 
     /* 하단 메뉴 */
-    nav {
+    .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
+      height: 70px;
+      background: rgba(255,255,255,.97);
+      border-top: 1px solid #e9edf2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 20;
+    }
+
+    .nav-item {
       display: flex;
-      justify-content: space-around;
-      background: white;
-      border-top: 1px solid #ddd;
-      padding: 10px 0 8px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 11px;
+      color: #8c94a1;
+      cursor: pointer;
     }
 
-    nav div {
-      text-align: center;
-      font-size: 12px;
-      color: #555;
+    .nav-item .ico {
+      font-size: 21px;
     }
 
-    nav span {
-      display: block;
-      font-size: 23px;
-      margin-bottom: 3px;
+    .nav-item.active {
+      color: #ff4f9a;
+      font-weight: 800;
     }
 
-    .home {
-      color: #e83e8c;
-      font-weight: bold;
+    @media (max-width: 380px) {
+      .hero h1 {
+        font-size: 31px;
+      }
+
+      .photo-space {
+        width: 95px;
+        height: 95px;
+      }
+
+      .quick-title {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -208,106 +353,165 @@
 
 <div class="app">
 
-  <header>
-    <div class="small-title">박춘선 의원과 함께하는</div>
-    <h1><span>강동구</span></h1>
-    <div class="subtitle">
-      주민의 목소리, 더 나은 강동을 만듭니다.
+  <header class="hero">
+    <div class="hero-small">박춘선 의원과 함께하는</div>
+
+    <h1>
+      더 가까이 듣고,<br>
+      더 빠르게 <span>움직이는 강동</span>
+    </h1>
+
+    <div class="hero-text">
+      주민의 목소리가 강동의 내일을 만듭니다.<br>
+      생활 속 작은 의견도 소중히 듣겠습니다.
+    </div>
+
+    <div class="photo-space">
+      의원 사진<br>
+      추후 삽입
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-icon">💗</div>
-    <h2>강동구가 아파요!</h2>
-    <p>
-      우리 동네의 불편한 점을 알려주세요.<br>
-      작은 목소리도 소중하게 듣겠습니다.
-    </p>
-  </section>
+  <div class="quick-wrap">
+    <div class="quick-menu">
 
-  <section class="main-menu">
-
-    <a class="menu-card report" href="#">
-      <div class="icon">🚨</div>
-      <div>
-        <strong>강동구가 아파요</strong>
-        <small>생활 불편사항을 제보해주세요</small>
+      <div class="quick-item" onclick="goSection('report')">
+        <div class="quick-icon">🚨</div>
+        <div class="quick-title">강동구가 아파요</div>
+        <div class="quick-sub">생활불편 제보</div>
       </div>
-    </a>
 
-    <a class="menu-card wish" href="#">
-      <div class="icon">💬</div>
-      <div>
-        <strong>박춘선 의원에게 바라요</strong>
-        <small>정책·지역발전 의견을 들려주세요</small>
+      <div class="quick-item" onclick="goSection('wish')">
+        <div class="quick-icon">💬</div>
+        <div class="quick-title">의원에게 바래요</div>
+        <div class="quick-sub">정책·지역 의견</div>
       </div>
-    </a>
 
-    <a class="menu-card solved" href="#">
-      <div class="icon">✅</div>
-      <div>
-        <strong>이렇게 해결했어요</strong>
-        <small>주민과 함께 해결한 이야기를 확인하세요</small>
+      <div class="quick-item" onclick="goSection('solved')">
+        <div class="quick-icon">✓</div>
+        <div class="quick-title">해결했어요</div>
+        <div class="quick-sub">처리·해결 소식</div>
       </div>
-    </a>
 
-  </section>
+    </div>
+  </div>
 
-  <section class="sub-menu">
+  <div class="notice">
+    <span class="notice-badge">공지</span>
+    <div class="notice-text">
+      주민 여러분의 다양한 의견을 기다립니다.
+    </div>
+  </div>
 
-    <div class="sub-card">
-      <span>📢</span>
-      공지사항
+  <section class="section" id="report">
+    <div class="section-head">
+      <h2 class="section-title">우리 서로 소통해요</h2>
+      <span class="more">더보기 ›</span>
     </div>
 
-    <div class="sub-card">
-      <span>🤝</span>
-      우리 서로<br>소통해요
+    <div class="talk-card">
+      <h3>강동구의 이야기를 들려주세요</h3>
+      <p>
+        생활 속 불편사항, 지역발전을 위한 아이디어,
+        박춘선 의원에게 전하고 싶은 의견을 남겨주세요.
+      </p>
+      <button class="talk-button"
+              onclick="alert('다음 단계에서 글쓰기 기능을 연결합니다.')">
+        의견 남기기
+      </button>
     </div>
-
-    <div class="sub-card">
-      <span>🏛️</span>
-      의정활동
-    </div>
-
   </section>
 
-  <section class="news">
-    <h3>📌 최근 소식</h3>
+  <section class="section" id="wish">
+    <div class="section-head">
+      <h2 class="section-title">의정활동</h2>
+      <span class="more">전체보기 ›</span>
+    </div>
+
+    <div class="activity-grid">
+
+      <div class="activity">
+        <div class="activity-icon">🏛️</div>
+        <h3>현장에서 듣겠습니다</h3>
+        <p>주민의 목소리를 직접 듣고 정책에 반영하겠습니다.</p>
+      </div>
+
+      <div class="activity">
+        <div class="activity-icon">📋</div>
+        <h3>꼼꼼히 챙기겠습니다</h3>
+        <p>지역 현안과 주민 생활 문제를 지속적으로 살피겠습니다.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="solved">
+    <div class="section-head">
+      <h2 class="section-title">최근 소식</h2>
+      <span class="more">더보기 ›</span>
+    </div>
 
     <div class="news-item">
-      주민 여러분의 의견을 기다립니다.
+      <strong>강동구 주민 여러분의 의견을 기다립니다.</strong>
+      <span>공지사항</span>
     </div>
 
     <div class="news-item">
-      강동구 지역 현안을 함께 살펴봅니다.
+      <strong>생활불편 사항을 편하게 알려주세요.</strong>
+      <span>강동구가 아파요</span>
     </div>
 
+    <div class="news-item">
+      <strong>주민과 함께 만드는 더 나은 강동구</strong>
+      <span>의정활동</span>
+    </div>
   </section>
 
 </div>
 
-<nav>
-  <div class="home">
-    <span>🏠</span>
-    홈
+<nav class="bottom-nav">
+
+  <div class="nav-item active" onclick="goTop()">
+    <span class="ico">⌂</span>
+    <span>홈</span>
   </div>
 
-  <div>
-    <span>🚨</span>
-    제보
+  <div class="nav-item" onclick="goSection('report')">
+    <span class="ico">🚨</span>
+    <span>제보</span>
   </div>
 
-  <div>
-    <span>💬</span>
-    소통
+  <div class="nav-item" onclick="goSection('wish')">
+    <span class="ico">💬</span>
+    <span>소통</span>
   </div>
 
-  <div>
-    <span>✅</span>
-    해결
+  <div class="nav-item" onclick="goSection('solved')">
+    <span class="ico">✓</span>
+    <span>해결</span>
   </div>
+
 </nav>
+
+<script>
+  function goSection(id) {
+    const target = document.getElementById(id);
+
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }
+
+  function goTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+</script>
 
 </body>
 </html>
