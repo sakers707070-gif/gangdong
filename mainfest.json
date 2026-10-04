@@ -1,0 +1,16 @@
+{
+  "name": "박춘선 의원과 함께하는 강동구",
+  "short_name": "강동구",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff4f9a",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
