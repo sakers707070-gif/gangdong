@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>박춘선 의원과 함께하는 강동구</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f7f7f7;
+      color: #222;
+    }
+
+    .app {
+      max-width: 480px;
+      min-height: 100vh;
+      margin: auto;
+      background: white;
+      padding-bottom: 85px;
+    }
+
+    /* 상단 */
+    header {
+      padding: 22px 20px 18px;
+      background: linear-gradient(135deg, #fff0f6, #eef7ff);
+    }
+
+    .small-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-top: 7px;
+      line-height: 1.3;
+    }
+
+    h1 span {
+      color: #e83e8c;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: #666;
+      font-size: 15px;
+    }
+
+    /* 메인 메시지 */
+    .hero {
+      margin: 18px;
+      padding: 25px 20px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffe4ef, #e6f3ff);
+      text-align: center;
+    }
+
+    .hero-icon {
+      font-size: 42px;
+    }
+
+    .hero h2 {
+      margin-top: 8px;
+      font-size: 25px;
+      color: #d63384;
+    }
+
+    .hero p {
+      margin-top: 8px;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    /* 핵심 메뉴 */
+    .main-menu {
+      padding: 0 18px;
+    }
+
+    .menu-card {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: #222;
+      border: 1px solid #eee;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    .menu-card .icon {
+      font-size: 31px;
+      width: 48px;
+      text-align: center;
+    }
+
+    .menu-card strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .menu-card small {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .report {
+      background: #fff0f4;
+    }
+
+    .wish {
+      background: #eef6ff;
+    }
+
+    .solved {
+      background: #effaf3;
+    }
+
+    /* 보조 메뉴 */
+    .sub-menu {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px 18px;
+    }
+
+    .sub-card {
+      padding: 17px 5px;
+      text-align: center;
+      border-radius: 15px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .sub-card span {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 7px;
+    }
+
+    /* 최근 소식 */
+    .news {
+      padding: 20px 18px;
+    }
+
+    .news h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .news-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    /* 하단 메뉴 */
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      border-top: 1px solid #ddd;
+      padding: 10px 0 8px;
+    }
+
+    nav div {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    nav span {
+      display: block;
+      font-size: 23px;
+      margin-bottom: 3px;
+    }
+
+    .home {
+      color: #e83e8c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <header>
+    <div class="small-title">박춘선 의원과 함께하는</div>
+    <h1><span>강동구</span></h1>
+    <div class="subtitle">
+      주민의 목소리, 더 나은 강동을 만듭니다.
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-icon">💗</div>
+    <h2>강동구가 아파요!</h2>
+    <p>
+      우리 동네의 불편한 점을 알려주세요.<br>
+      작은 목소리도 소중하게 듣겠습니다.
+    </p>
+  </section>
+
+  <section class="main-menu">
+
+    <a class="menu-card report" href="#">
+      <div class="icon">🚨</div>
+      <div>
+        <strong>강동구가 아파요</strong>
+        <small>생활 불편사항을 제보해주세요</small>
+      </div>
+    </a>
+
+    <a class="menu-card wish" href="#">
+      <div class="icon">💬</div>
+      <div>
+        <strong>박춘선 의원에게 바라요</strong>
+        <small>정책·지역발전 의견을 들려주세요</small>
+      </div>
+    </a>
+
+    <a class="menu-card solved" href="#">
+      <div class="icon">✅</div>
+      <div>
+        <strong>이렇게 해결했어요</strong>
+        <small>주민과 함께 해결한 이야기를 확인하세요</small>
+      </div>
+    </a>
+
+  </section>
+
+  <section class="sub-menu">
+
+    <div class="sub-card">
+      <span>📢</span>
+      공지사항
+    </div>
+
+    <div class="sub-card">
+      <span>🤝</span>
+      우리 서로<br>소통해요
+    </div>
+
+    <div class="sub-card">
+      <span>🏛️</span>
+      의정활동
+    </div>
+
+  </section>
+
+  <section class="news">
+    <h3>📌 최근 소식</h3>
+
+    <div class="news-item">
+      주민 여러분의 의견을 기다립니다.
+    </div>
+
+    <div class="news-item">
+      강동구 지역 현안을 함께 살펴봅니다.
+    </div>
+
+  </section>
+
+</div>
+
+<nav>
+  <div class="home">
+    <span>🏠</span>
+    홈
+  </div>
+
+  <div>
+    <span>🚨</span>
+    제보
+  </div>
+
+  <div>
+    <span>💬</span>
+    소통
+  </div>
+
+  <div>
+    <span>✅</span>
+    해결
+  </div>
+</nav>
+
+</body>
+</html>
