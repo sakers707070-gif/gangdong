@@ -567,7 +567,7 @@ color:#172033;
       "></textarea>
 
     <label style="font-weight:700;">사진 첨부</label>
-    <input type="file"
+    <input type="file" id="reportPhoto"
       accept="image/*"
       style="
         width:100%;
@@ -649,19 +649,38 @@ function openReportForm() {
   const title = document.getElementById("reportTitle").value.trim();
   const location = document.getElementById("reportLocation").value.trim();
   const content = document.getElementById("reportContent").value.trim();
+        const photo = document.getElementById("reportPhoto").files[0];
 
   if (!title || !content) {
     alert("제보 제목과 제보 내용을 입력해주세요.");
     return;
   }
+let photoPath = null;
 
+if (photo) {
+  const fileExt = photo.name.split(".").pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+  photoPath = fileName;
+
+  const { error: uploadError } = await supabaseClient
+    .storage
+    .from("report-photos")
+    .upload(photoPath, photo);
+
+  if (uploadError) {
+    console.error(uploadError);
+    alert("사진 업로드 중 오류가 발생했습니다.");
+    return;
+  }
+}
   const { error } = await supabaseClient
     .from("reports")
     .insert([
       {
         title: title,
         location: location,
-        content: content
+        content: content,
+        photo_path: photoPath
       }
     ]);
 
@@ -676,7 +695,7 @@ function openReportForm() {
   document.getElementById("reportTitle").value = "";
   document.getElementById("reportLocation").value = "";
   document.getElementById("reportContent").value = "";
-
+document.getElementById("reportPhoto").value = "";
   closeReportForm();
 }
   
