@@ -643,6 +643,8 @@ function openReportForm() {
   document.getElementById("reportForm").style.display = "block";
 }
     function closeReportForm() {
+        document.getElementById("reportForm").style.display = "none";
+}
       async function submitReport() {
   const title = document.getElementById("reportTitle").value.trim();
   const location = document.getElementById("reportLocation").value.trim();
