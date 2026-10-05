@@ -367,6 +367,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -526,6 +527,7 @@ color:#172033;
 
     <label style="font-weight:700;">제보 제목</label>
     <input type="text"
+      id="reportTitle"
       placeholder="제보 제목을 입력해주세요"
       style="
         width:100%;
@@ -538,6 +540,7 @@ color:#172033;
 
     <label style="font-weight:700;">발생 장소</label>
     <input type="text"
+      id="reportLocation"
       placeholder="예: 강동구 ○○동 ○○공원"
       style="
         width:100%;
@@ -550,6 +553,7 @@ color:#172033;
 
     <label style="font-weight:700;">제보 내용</label>
     <textarea
+      id="reportContent"
       placeholder="불편한 점이나 개선이 필요한 내용을 작성해주세요."
       style="
         width:100%;
@@ -571,6 +575,7 @@ color:#172033;
       ">
 
     <button type="button"
+      onclick="submitReport()"
       style="
         width:100%;
         border:0;
@@ -631,12 +636,48 @@ color:#172033;
 </script>
 
   <script>
+   const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 function openReportForm() {
   document.getElementById("reportForm").style.display = "block";
 }
     function closeReportForm() {
-  document.getElementById("reportForm").style.display = "none";
+      async function submitReport() {
+  const title = document.getElementById("reportTitle").value.trim();
+  const location = document.getElementById("reportLocation").value.trim();
+  const content = document.getElementById("reportContent").value.trim();
+
+  if (!title || !content) {
+    alert("제보 제목과 제보 내용을 입력해주세요.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("reports")
+    .insert([
+      {
+        title: title,
+        location: location,
+        content: content
+      }
+    ]);
+
+  if (error) {
+    console.error(error);
+    alert("제보 접수 중 오류가 발생했습니다.");
+    return;
+  }
+
+  alert("제보가 정상적으로 접수되었습니다. 감사합니다.");
+
+  document.getElementById("reportTitle").value = "";
+  document.getElementById("reportLocation").value = "";
+  document.getElementById("reportContent").value = "";
+
+  closeReportForm();
 }
+  
 </script>
 </body>
 </html>
