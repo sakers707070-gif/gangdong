@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>강동구 주민제보 관리</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -85,6 +86,36 @@
 
     </div>
   </div>
+<script>
 
+  const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+  <div id="loginBox">
+  <h2>🔐 관리자 로그인</h2>
+    <input type="email" id="adminEmail" placeholder="관리자 이메일">
+    <input type="password" id="adminPassword" placeholder="관리자 비밀번호">
+    <button onclick="adminLogin()">로그인</button>
+    <p id="loginMessage"></p>
+</div>
+  <script>
+    async function adminLogin() {
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value;
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+  email: email,
+  password: password
+});
+      if (error) {
+  document.getElementById("loginMessage").textContent =
+    "이메일 또는 비밀번호를 확인해주세요.";
+  return;
+}
+
+document.getElementById("loginMessage").textContent =
+  "관리자 로그인에 성공했습니다.";
+      }
+</script>
 </body>
 </html>
