@@ -118,7 +118,7 @@
 
 document.getElementById("loginMessage").textContent =
   "관리자 로그인에 성공했습니다.";
-      loadReports();
+      await loadReports();
       }
     async function loadReports() {
   const { data, error } = await supabaseClient
