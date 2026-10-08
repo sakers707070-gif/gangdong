@@ -165,6 +165,19 @@ const items = (await Promise.all(data.map(async report => {
   <option value="처리 중" ${report.status === "처리 중" ? "selected" : ""}>처리 중</option>
   <option value="해결 완료" ${report.status === "해결 완료" ? "selected" : ""}>해결 완료</option>
 </select>
+<p><strong>해결 결과:</strong></p>
+<textarea
+  id="resolution-${report.id}"
+  rows="3"
+  placeholder="주민에게 공개할 해결 내용을 입력하세요."
+  style="width:100%;padding:10px;box-sizing:border-box;"
+>${escapeHtml(report.resolution_content || '')}</textarea>
+<button
+  type="button"
+  onclick="saveResolution(${report.id})"
+  style="margin:8px 0;padding:10px 16px;background:#e94b8b;color:white;border:0;border-radius:8px;cursor:pointer;">
+  해결 내용 저장
+</button>
       ${photoHtml}
     </div>
   `;
@@ -185,6 +198,22 @@ const items = (await Promise.all(data.map(async report => {
 
   alert("처리상태가 저장되었습니다.");
 }
+  async function saveResolution(id) {
+  const content = document.getElementById(`resolution-${id}`).value.trim();
+
+  const { error } = await supabaseClient
+    .from("reports")
+    .update({ resolution_content: content })
+    .eq("id", id);
+
+  if (error) {
+    alert("해결 내용 저장에 실패했습니다.");
+    console.error(error);
+    return;
+  }
+
+  alert("해결 내용이 저장되었습니다.");
+}  
 </script>
 </body>
 </html>
