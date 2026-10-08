@@ -626,6 +626,44 @@ color:#172033;
    const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
     const SUPABASE_KEY = "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm";
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    async function loadSolvedReports() {
+  const solvedList = document.getElementById("solvedList");
+  if (!solvedList) return;
+
+  solvedList.textContent = "해결 사례를 불러오는 중입니다.";
+
+  const { data, error } = await supabaseClient
+    .from("reports")
+    .select("title, location, status")
+    .eq("status", "해결 완료");
+
+  if (error) {
+    solvedList.textContent = "해결 사례를 불러오지 못했습니다.";
+    return;
+  }
+
+  solvedList.textContent = "";
+
+  if (!data || data.length === 0) {
+    solvedList.textContent = "등록된 해결 사례가 없습니다.";
+    return;
+  }
+
+  data.forEach(report => {
+    const item = document.createElement("div");
+    item.className = "news-item";
+
+    const title = document.createElement("strong");
+    title.textContent = report.title || "해결 사례";
+
+    const location = document.createElement("span");
+    location.textContent = report.location || "";
+
+    item.append(title, location);
+    solvedList.appendChild(item);
+  });
+}
+   loadSolvedReports(); 
 function openReportForm() {
   document.getElementById("reportForm").style.display = "block";
 }
