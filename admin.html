@@ -155,13 +155,31 @@ const items = (await Promise.all(data.map(async report => {
       <p><strong>장소:</strong> ${escapeHtml(report.location || "-")}</p>
       <p><strong>제보내용:</strong> ${escapeHtml(report.content || "-")}</p>
       <p><strong>처리상태:</strong> ${escapeHtml(report.status || "접수")}</p>
+      <select class="status-select" data-report-id="${report.id}">
+  <option value="접수" ${report.status === "접수" ? "selected" : ""}>접수</option>
+  <option value="처리 중" ${report.status === "처리 중" ? "selected" : ""}>처리 중</option>
+  <option value="해결 완료" ${report.status === "해결 완료" ? "selected" : ""}>해결 완료</option>
+</select>
       ${photoHtml}
     </div>
   `;
 }))).join("");
       reportList.innerHTML = `<h2>📋 접수된 주민제보 목록</h2>${items}`;
     }
-    
+    async function updateReportStatus(id, status) {
+  const { error } = await supabaseClient
+    .from("reports")
+    .update({ status: status })
+    .eq("id", id);
+
+  if (error) {
+    alert("처리상태 저장에 실패했습니다.");
+    console.error(error);
+    return;
+  }
+
+  alert("처리상태가 저장되었습니다.");
+}
 </script>
 </body>
 </html>
