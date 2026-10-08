@@ -97,6 +97,63 @@ alert('상세 오류: ' + error.message);
   document.getElementById('postContent').value = '';
 }
 
+
+async function loadApprovedPosts() {
+  const { data, error } = await db
+    .from('community_posts')
+    .select('title, content, author_name, created_at')
+    .eq('is_visible', true)
+    .order('created_at', { ascending: false });
+
+  let area = document.getElementById('approvedPosts');
+
+  if (!area) {
+    area = document.createElement('div');
+    area.id = 'approvedPosts';
+    area.style.marginTop = '30px';
+    document.querySelector('main').appendChild(area);
+  }
+
+  area.replaceChildren();
+
+  const heading = document.createElement('h2');
+  heading.textContent = '주민들이 나눈 이야기';
+  area.appendChild(heading);
+
+  if (error) {
+    const message = document.createElement('p');
+    message.textContent = '게시글을 불러오지 못했습니다.';
+    area.appendChild(message);
+    console.error(error);
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    const message = document.createElement('p');
+    message.textContent = '아직 공개된 게시글이 없습니다.';
+    area.appendChild(message);
+    return;
+  }
+
+  data.forEach(post => {
+    const card = document.createElement('div');
+    card.style.cssText =
+      'background:white;padding:16px;margin:12px 0;border-radius:12px;';
+
+    const title = document.createElement('h3');
+    title.textContent = post.title;
+
+    const content = document.createElement('p');
+    content.textContent = post.content;
+    content.style.whiteSpace = 'pre-wrap';
+
+    card.append(title, content);
+    area.appendChild(card);
+  });
+}
+
+loadApprovedPosts();
+
 </script>
 
 </body>
