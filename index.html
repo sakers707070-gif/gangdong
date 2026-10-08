@@ -638,9 +638,8 @@ color:#172033;
   solvedList.textContent = "해결 사례를 불러오는 중입니다.";
 
   const { data, error } = await supabaseClient
-    .from("reports")
-    .select("title, location, status")
-    .eq("status", "해결 완료");
+   .from("resolved_news")
+.select("title, location, resolution_content");
 
   if (error) {
     solvedList.textContent = "해결 사례를 불러오지 못했습니다.";
@@ -663,8 +662,11 @@ color:#172033;
 
     const location = document.createElement("span");
     location.textContent = report.location || "";
-
-    item.append(title, location);
+const resolution = document.createElement("p");
+resolution.textContent = report.resolution_content || "";
+resolution.style.marginTop = "8px";
+resolution.style.whiteSpace = "pre-wrap";
+    item.append(title, location, resolution);
     solvedList.appendChild(item);
   });
 }
