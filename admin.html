@@ -154,6 +154,7 @@ const items = (await Promise.all(data.map(async report => {
       <h3>${escapeHtml(report.title || "제목 없음")}</h3>
       <p><strong>장소:</strong> ${escapeHtml(report.location || "-")}</p>
       <p><strong>제보내용:</strong> ${escapeHtml(report.content || "-")}</p>
+      <p><strong>처리상태:</strong> ${escapeHtml(report.status || "접수")}</p>
       ${photoHtml}
     </div>
   `;
