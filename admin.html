@@ -178,6 +178,12 @@ const items = (await Promise.all(data.map(async report => {
   style="margin:8px 0;padding:10px 16px;background:#e94b8b;color:white;border:0;border-radius:8px;cursor:pointer;">
   해결 내용 저장
 </button>
+<button
+  type="button"
+  onclick="publishResolution(${report.id})"
+  style="margin:8px;padding:10px 16px;background:#2563eb;color:white;border:0;border-radius:8px;cursor:pointer;">
+  주민에게 공개하기
+</button>
       ${photoHtml}
     </div>
   `;
@@ -213,6 +219,51 @@ const items = (await Promise.all(data.map(async report => {
   }
 
   alert("해결 내용이 저장되었습니다.");
+}  
+  async function publishResolution(id) {
+  const { data: report, error: readError } = await supabaseClient
+    .from("reports")
+    .select("id, title, location, status, resolution_content")
+    .eq("id", id)
+    .single();
+
+  if (readError || !report) {
+    alert("제보 정보를 확인하지 못했습니다.");
+    return;
+  }
+
+  if (report.status !== "해결 완료") {
+    alert("처리상태를 먼저 '해결 완료'로 변경해 주세요.");
+    return;
+  }
+
+  const content = (report.resolution_content || "").trim();
+
+  if (!content) {
+    alert("해결 내용을 먼저 작성하고 저장해 주세요.");
+    return;
+  }
+
+  if (!confirm("이 해결 사례를 주민 홈페이지에 공개하시겠습니까?")) {
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("resolved_news")
+    .upsert({
+      report_id: report.id,
+      title: report.title,
+      location: report.location,
+      resolution_content: content
+    }, { onConflict: "report_id" });
+
+  if (error) {
+    console.error(error);
+    alert("공개에 실패했습니다.");
+    return;
+  }
+
+  alert("주민 홈페이지에 공개되었습니다.");
 }  
 </script>
 </body>
