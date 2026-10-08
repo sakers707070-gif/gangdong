@@ -155,7 +155,7 @@ const items = (await Promise.all(data.map(async report => {
       <p><strong>장소:</strong> ${escapeHtml(report.location || "-")}</p>
       <p><strong>제보내용:</strong> ${escapeHtml(report.content || "-")}</p>
       <p><strong>처리상태:</strong> ${escapeHtml(report.status || "접수")}</p>
-      <select class="status-select" data-report-id="${report.id}" onchange="updateReportStatus(this.dataset.reportId, this.value)">
+      <select class="status-select" style="display:block; width:200px; height:40px; margin:10px 0; border:2px solid #333; background:white; color:black;" data-report-id="${report.id}" onchange="updateReportStatus(this.dataset.reportId, this.value)">
   <option value="접수" ${report.status === "접수" ? "selected" : ""}>접수</option>
   <option value="처리 중" ${report.status === "처리 중" ? "selected" : ""}>처리 중</option>
   <option value="해결 완료" ${report.status === "해결 완료" ? "selected" : ""}>해결 완료</option>
