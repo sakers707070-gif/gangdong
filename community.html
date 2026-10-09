@@ -135,7 +135,7 @@ async function loadApprovedPosts() {
     return;
   }
 
-  data.forEach(post => {
+  for (const post of data) {
     const card = document.createElement('div');
     card.style.cssText =
       'background:white;padding:16px;margin:12px 0;border-radius:12px;';
@@ -187,8 +187,23 @@ card.appendChild(commentButton);
   alert('댓글이 접수되었습니다. 관리자 승인 후 공개됩니다.');
   commentInput.value = '';
 };
-    area.appendChild(card);
+    const { data: comments, error: commentError } = await db
+  .from('community_comments')
+  .select('content, author_name')
+  .eq('post_id', post.id)
+  .eq('is_visible', true);
+
+if (!commentError && comments) {
+  comments.forEach(item => {
+    const commentBox = document.createElement('p');
+    commentBox.textContent = '💬 ' + item.author_name + ': ' + item.content;
+    commentBox.style.cssText =
+      'background:#fff1f5;padding:10px;border-radius:8px;';
+    card.appendChild(commentBox);
   });
+}
+    area.appendChild(card);
+  }
 }
 
 loadApprovedPosts();
