@@ -101,7 +101,7 @@ alert('상세 오류: ' + error.message);
 async function loadApprovedPosts() {
   const { data, error } = await db
     .from('community_posts')
-    .select('title, content, author_name, created_at')
+   .select('id, title, content, author_name, created_at')
     .eq('is_visible', true)
     .order('created_at', { ascending: false });
 
