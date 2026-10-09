@@ -148,6 +148,45 @@ async function loadApprovedPosts() {
     content.style.whiteSpace = 'pre-wrap';
 
     card.append(title, content);
+    const commentInput = document.createElement('textarea');
+commentInput.placeholder = '댓글을 입력해 주세요';
+commentInput.maxLength = 1000;
+commentInput.style.cssText = 'width:100%;box-sizing:border-box;margin-top:12px;padding:10px;border:1px solid #ddd;border-radius:8px;';
+card.appendChild(commentInput);
+    const commentButton = document.createElement('button');
+commentButton.textContent = '댓글 등록하기';
+commentButton.style.cssText = 'background:#e75480;color:white;border:0;border-radius:8px;padding:10px 16px;margin-top:8px;cursor:pointer;';
+card.appendChild(commentButton);
+    commentButton.onclick = async () => {
+  const comment = commentInput.value.trim();
+
+  if (!comment) {
+    alert('댓글 내용을 입력해 주세요.');
+    return;
+  }
+
+  commentButton.disabled = true;
+
+  const { error } = await db
+    .from('community_comments')
+    .insert({
+      post_id: post.id,
+      author_name: '강동구 주민',
+      content: comment,
+      is_visible: false
+    });
+
+  commentButton.disabled = false;
+
+  if (error) {
+    alert('댓글 등록에 실패했습니다.');
+    console.error(error);
+    return;
+  }
+
+  alert('댓글이 접수되었습니다. 관리자 승인 후 공개됩니다.');
+  commentInput.value = '';
+};
     area.appendChild(card);
   });
 }
