@@ -530,6 +530,15 @@ color:#172033;
         font-size:16px;
       ">
 
+<button type="button"
+  onclick="startVoiceField('reportTitle', 'voiceTitleStatus')"
+  style="width:100%; padding:12px; margin-bottom:8px;
+  background:#e91e63; color:white; border:0;
+  border-radius:12px; font-size:16px;">
+  🎤 제목 말로 입력하기
+</button>
+<p id="voiceTitleStatus" role="status" aria-live="polite"></p>
+
     <label style="font-weight:700;">발생 장소</label>
     <input type="text"
       id="reportLocation"
@@ -542,6 +551,15 @@ color:#172033;
         border-radius:12px;
         font-size:16px;
       ">
+
+<button type="button"
+  onclick="startVoiceField('reportLocation', 'voiceLocationStatus')"
+  style="width:100%; padding:12px; margin-bottom:8px;
+  background:#e91e63; color:white; border:0;
+  border-radius:12px; font-size:16px;">
+  🎤 발생 장소 말로 입력하기
+</button>
+<p id="voiceLocationStatus" role="status" aria-live="polite"></p>
 
     <label style="font-weight:700;">제보 내용</label>
     <textarea
@@ -801,6 +819,53 @@ recognition.onend = function() {
   }
 };
 
+
+  recognition.start();
+}
+
+function startVoiceField(fieldId, statusId) {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  const field = document.getElementById(fieldId);
+  const status = document.getElementById(statusId);
+
+  if (!SpeechRecognition) {
+    status.textContent = "이 브라우저에서는 음성인식이 지원되지 않습니다.";
+    return;
+  }
+
+  if (voiceRecognition) {
+    status.textContent = "다른 음성입력이 진행 중입니다. 잠시 후 다시 눌러주세요.";
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  voiceRecognition = recognition;
+  recognition.lang = "ko-KR";
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = function() {
+    status.textContent = "말씀해 주세요. 음성을 인식하고 있습니다.";
+  };
+
+  recognition.onresult = function(event) {
+    const spoken = event.results[0][0].transcript;
+    field.value = (field.value + " " + spoken).trim();
+    status.textContent = "음성 입력이 완료되었습니다. 내용을 확인해 주세요.";
+  };
+
+  recognition.onerror = function(event) {
+    status.textContent = "음성인식 오류: " + event.error;
+  };
+
+  recognition.onend = function() {
+    voiceRecognition = null;
+    if (status.textContent.includes("인식하고")) {
+      status.textContent = "음성 입력이 종료되었습니다. 다시 말하려면 버튼을 눌러주세요.";
+    }
+  };
 
   recognition.start();
 }
