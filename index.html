@@ -557,6 +557,16 @@ color:#172033;
         font-size:16px;
         resize:vertical;
       "></textarea>
+    
+<button type="button" id="voiceReportButton"
+  onclick="startVoiceReport()"
+  style="width:100%; padding:15px; margin-bottom:20px;
+  background:#e91e63; color:white; border:0;
+  border-radius:12px; font-size:17px; cursor:pointer;">
+  🎤 말로 제보하기
+</button>
+<p id="voiceReportStatus" role="status" aria-live="polite"></p>
+  
 
     <label style="font-weight:700;">사진 첨부</label>
     <input type="file" id="reportPhoto"
@@ -731,6 +741,66 @@ document.getElementById("reportPhoto").value = "";
   closeReportForm();
 }
   
-</script>
+
+let voiceRecognition = null;
+
+function startVoiceReport() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  const status = document.getElementById("voiceReportStatus");
+  const button = document.getElementById("voiceReportButton");
+  const content = document.getElementById("reportContent");
+
+  if (!SpeechRecognition) {
+    status.textContent = "이 브라우저에서는 음성인식이 지원되지 않습니다. 키보드의 마이크 기능을 이용해 주세요.";
+    return;
+  }
+
+  if (voiceRecognition) {
+    voiceRecognition.stop();
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  voiceRecognition = recognition;
+  recognition.lang = "ko-KR";
+  recognition.continuous = true;
+  recognition.interimResults = false;
+
+  let transcript = "";
+
+  recognition.onstart = function() {
+    status.textContent = "말씀해 주세요. 음성을 글자로 변환하고 있습니다.";
+    button.textContent = "■ 음성 입력 끝내기";
+  };
+
+  recognition.onresult = function(event) {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        transcript += event.results[i][0].transcript + " ";
+      }
+    }
+    content.value = (content.value + " " + transcript).trim();
+    transcript = "";
+  };
+
+  recognition.onerror = function(event) {
+    status.textContent = "음성인식 오류: " + event.error +
+      ". 마이크 권한과 인터넷 연결을 확인해 주세요.";
+  };
+
+  recognition.onend = function() {
+    voiceRecognition = null;
+    button.textContent = "🎤 말로 제보하기";
+    if (status.textContent.includes("변환하고")) {
+      status.textContent = "음성 입력이 끝났습니다. 내용을 확인한 뒤 제보해 주세요.";
+    }
+  };
+
+  recognition.start();
+}
+
+  </script>
 </body>
 </html>
