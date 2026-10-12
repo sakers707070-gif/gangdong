@@ -790,13 +790,17 @@ function startVoiceReport() {
       ". 마이크 권한과 인터넷 연결을 확인해 주세요.";
   };
 
-  recognition.onend = function() {
-    voiceRecognition = null;
-    button.textContent = "🎤 말로 제보하기";
-    if (status.textContent.includes("변환하고")) {
-      status.textContent = "음성 입력이 끝났습니다. 내용을 확인한 뒤 제보해 주세요.";
-    }
-  };
+  
+recognition.onend = function() {
+  voiceRecognition = null;
+  button.textContent = "🎤 말로 제보하기";
+
+  if (!status.textContent.includes("오류")) {
+    status.textContent =
+      "음성 입력이 종료되었습니다. 더 말씀하시려면 마이크 버튼을 다시 누르세요. 입력된 내용을 확인한 후 제보해 주세요.";
+  }
+};
+
 
   recognition.start();
 }
