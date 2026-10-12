@@ -775,13 +775,15 @@ function startVoiceReport() {
     return;
   }
 
-  if (voiceRecognition) {
-    voiceRecognition.stop();
-    return;
-  }
+ if (voiceRecognition) {
+  voiceRecognition.manuallyStopped = true;
+  voiceRecognition.stop();
+  return;
+}
 
   const recognition = new SpeechRecognition();
   voiceRecognition = recognition;
+ recognition.manuallyStopped = false;
   recognition.lang = "ko-KR";
   recognition.continuous = true;
   recognition.interimResults = false;
@@ -846,12 +848,15 @@ function startVoiceField(fieldId, statusId) {
   }
 
   if (voiceRecognition) {
-    status.textContent = "다른 음성입력이 진행 중입니다. 잠시 후 다시 눌러주세요.";
-    return;
-  }
+  voiceRecognition.manuallyStopped = true;
+  voiceRecognition.stop();
+  status.textContent = "음성 입력을 끝내고 있습니다.";
+  return;
+}
 
   const recognition = new SpeechRecognition();
   voiceRecognition = recognition;
+  recognition.manuallyStopped = false;
   recognition.lang = "ko-KR";
   recognition.continuous = true;
   recognition.interimResults = false;
@@ -871,11 +876,22 @@ function startVoiceField(fieldId, statusId) {
   };
 
   recognition.onend = function() {
-    voiceRecognition = null;
-    if (status.textContent.includes("인식하고")) {
-      status.textContent = "음성 입력이 종료되었습니다. 다시 말하려면 버튼을 눌러주세요.";
+  if (voiceRecognition === recognition &&
+      !recognition.manuallyStopped) {
+    status.textContent = "잠시 쉬셔도 됩니다. 다시 듣고 있습니다.";
+    try {
+      recognition.start();
+      return;
+    } catch (error) {
+      console.log("음성인식 재시작 실패:", error);
     }
-  };
+  }
+
+  if (voiceRecognition === recognition) {
+    voiceRecognition = null;
+  }
+  status.textContent = "음성 입력이 종료되었습니다.";
+};
 
   recognition.start();
 }
