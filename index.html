@@ -810,13 +810,23 @@ function startVoiceReport() {
 
   
 recognition.onend = function() {
-  voiceRecognition = null;
-  button.textContent = "🎤 말로 제보하기";
+    if (!recognition.manuallyStopped) {
+        status.textContent = "잠시 쉬셔도 됩니다. 음성인식을 다시 시작합니다.";
+        try {
+            recognition.start();
+            return;
+        } catch (error) {
+            console.log("음성인식 재시작 실패:", error);
+        }
+    }
 
-  if (!status.textContent.includes("오류")) {
-    status.textContent =
-      "음성 입력이 종료되었습니다. 더 말씀하시려면 마이크 버튼을 다시 누르세요. 입력된 내용을 확인한 후 제보해 주세요.";
-  }
+    voiceRecognition = null;
+    button.textContent = "🎤 말로 제보하기";
+
+    if (!status.textContent.includes("오류")) {
+        status.textContent =
+            "음성 입력이 종료되었습니다. 입력된 내용을 확인해 주세요.";
+    }
 };
 
 
@@ -843,7 +853,7 @@ function startVoiceField(fieldId, statusId) {
   const recognition = new SpeechRecognition();
   voiceRecognition = recognition;
   recognition.lang = "ko-KR";
-  recognition.continuous = false;
+  recognition.continuous = true;
   recognition.interimResults = false;
 
   recognition.onstart = function() {
