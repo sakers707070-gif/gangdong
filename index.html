@@ -814,12 +814,18 @@ function startVoiceReport() {
 recognition.onend = function() {
     if (!recognition.manuallyStopped) {
         status.textContent = "잠시 쉬셔도 됩니다. 음성인식을 다시 시작합니다.";
-        try {
-            recognition.start();
+       
+          setTimeout(() => {
+  if (!recognition.manuallyStopped) {
+    try {
+      recognition.start();
+    } catch (error) {
+      console.log("음성인식 재시작 실패:", error);
+    }
+  }
+}, 500);
             return;
-        } catch (error) {
-            console.log("음성인식 재시작 실패:", error);
-        }
+     
     }
 
     voiceRecognition = null;
