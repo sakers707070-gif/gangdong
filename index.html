@@ -800,7 +800,7 @@ function startVoiceReport() {
     let finalText = "";
     let interimText = "";
 
-    for (let i = 0; i < event.results.length; i++) {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
         const spoken = event.results[i][0].transcript;
 
         if (event.results[i].isFinal) {
@@ -810,7 +810,9 @@ function startVoiceReport() {
         }
     }
 
-    content.value = (voiceBaseText + " " + finalText).trim();
+   if (finalText.trim()) {
+  content.value = (content.value + " " + finalText).trim();
+}
 
     status.textContent = interimText
         ? "인식 중: " + interimText
