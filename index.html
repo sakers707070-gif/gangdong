@@ -843,7 +843,7 @@ recognition.onend = function() {
     if (!recognition.manuallyStopped) {
       try {
         voiceBaseText = content.value;
-        recognition.start();
+       // recognition.start();
       } catch (error) {
         console.log("음성인식 재시작 실패:", error);
       }
