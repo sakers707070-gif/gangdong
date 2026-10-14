@@ -888,14 +888,14 @@ function startVoiceField(fieldId, statusId) {
       console.log("음성인식 재시작 실패:", error);
     }
   }
-
+  }
   if (voiceRecognition === recognition) {
     voiceRecognition = null;
   }
   status.textContent = "음성 입력이 종료되었습니다.";
 };
 
-  recognition.start();
+ recognition.start();
 }
 
   </script>
