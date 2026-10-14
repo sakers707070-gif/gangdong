@@ -795,6 +795,7 @@ function startVoiceReport() {
     button.textContent = "■ 음성 입력 끝내기";
   };
 
+  let lastFinalText = "";
   recognition.onresult = function(event) {
   let finalText = "";
   let interimText = "";
@@ -809,9 +810,14 @@ function startVoiceReport() {
     }
   }
 
-  if (finalText) {
-    content.value = (content.value + " " + finalText).trim();
-  }
+ if (finalText) {
+    const newText = finalText.trim();
+
+    if (newText !== lastFinalText) {
+        content.value = (content.value + " " + newText).trim();
+        lastFinalText = newText;
+    }
+}
 
   status.textContent = interimText
   ? "인식 중: " + interimText
