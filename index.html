@@ -830,26 +830,9 @@ if (newVoiceResult && newVoiceResult !== lastVoiceResult) {
   
 
 recognition.onend = function() {
-  if (recognition.manuallyStopped) {
-    voiceRecognition = null;
-    button.textContent = "🎤 말로 제보하기";
-    status.textContent = "음성 입력이 종료되었습니다. 입력된 내용을 확인해 주세요.";
-    return;
-  }
-
-  status.textContent = "잠시 쉬어도 됩니다. 음성인식을 다시 시작합니다.";
-
-  setTimeout(() => {
-    if (!recognition.manuallyStopped) {
-      try {
-        voiceBaseText = content.value;
-       // recognition.start();
-      } catch (error) {
-        console.log("음성인식 재시작 실패:", error);
-      }
-    }
-  }, 500);
-};
+  voiceRecognition = null;
+  button.textContent = "🎤 말로 제보하기";
+  status.textContent = "음성 입력이 종료되었습니다
 
   recognition.start();
 }
