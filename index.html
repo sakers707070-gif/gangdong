@@ -795,35 +795,27 @@ function startVoiceReport() {
     button.textContent = "■ 음성 입력 끝내기";
   };
 
-  let lastFinalText = "";
-  recognition.onresult = function(event) {
-  let finalText = "";
-  let interimText = "";
+  let voiceBaseText = content.value;
+ recognition.onresult = function(event) {
+    let finalText = "";
+    let interimText = "";
 
-  for (let i = event.resultIndex; i < event.results.length; i++) {
-    const spoken = event.results[i][0].transcript;
+    for (let i = 0; i < event.results.length; i++) {
+        const spoken = event.results[i][0].transcript;
 
-    if (event.results[i].isFinal) {
-      finalText += spoken + " ";
-    } else {
-      interimText += spoken;
+        if (event.results[i].isFinal) {
+            finalText += spoken + " ";
+        } else {
+            interimText += spoken;
+        }
     }
-  }
 
- if (finalText) {
-    const newText = finalText.trim();
+    content.value = (voiceBaseText + " " + finalText).trim();
 
-    if (newText !== lastFinalText) {
-        content.value = (content.value + " " + newText).trim();
-        lastFinalText = newText;
-    }
-}
-
-  status.textContent = interimText
-  ? "인식 중: " + interimText
-  : "말씀해 주세요. 음성 입력을 계속하고 있습니다.";
+    status.textContent = interimText
+        ? "인식 중: " + interimText
+        : "말씀해 주세요. 음성 입력을 계속하고 있습니다.";
 };
-
   recognition.onerror = function(event) {
     status.textContent = "음성인식 오류: " + event.error +
       ". 마이크 권한과 인터넷 연결을 확인해 주세요.";
@@ -837,6 +829,7 @@ recognition.onend = function() {
           setTimeout(() => {
   if (!recognition.manuallyStopped) {
     try {
+     voiceBaseText = content.value;
       recognition.start();
     } catch (error) {
       console.log("음성인식 재시작 실패:", error);
