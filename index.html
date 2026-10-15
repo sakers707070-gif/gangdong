@@ -408,7 +408,7 @@
 
       <div class="quick-item" onclick="goSection('wish')">
         <div class="quick-icon">💬</div>
-        <div class="quick-title">박춘선 의원에게 바라요</div>
+        <div class="quick-title">박춘선 의원에게 바래요</div>
         <div class="quick-sub">정책·지역 의견</div>
       </div>
 
@@ -775,18 +775,16 @@ function startVoiceReport() {
     return;
   }
 
- if (voiceRecognition) {
-  voiceRecognition.manuallyStopped = true;
-  voiceRecognition.stop();
-  return;
-}
+  if (voiceRecognition) {
+    voiceRecognition.stop();
+    return;
+  }
 
   const recognition = new SpeechRecognition();
   voiceRecognition = recognition;
- recognition.manuallyStopped = false;
   recognition.lang = "ko-KR";
   recognition.continuous = true;
-  recognition.interimResults = true;
+  recognition.interimResults = false;
 
   let transcript = "";
 
@@ -795,45 +793,33 @@ function startVoiceReport() {
     button.textContent = "■ 음성 입력 끝내기";
   };
 
- let lastVoiceResult = "";
-  let voiceBaseText = content.value;
-recognition.onresult = function(event) {
-  let finalText = "";
-  let interimText = "";
-
-  for (let i = 0; i < event.results.length; i++) {
-    const spoken = event.results[i][0].transcript;
-
-    if (event.results[i].isFinal) {
-      finalText += spoken + " ";
-    } else {
-      interimText += spoken;
+  recognition.onresult = function(event) {
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      if (event.results[i].isFinal) {
+        transcript += event.results[i][0].transcript + " ";
+      }
     }
-  }
+    content.value = (content.value + " " + transcript).trim();
+    transcript = "";
+  };
 
-const newVoiceResult = finalText.trim();
-
-if (newVoiceResult && newVoiceResult !== lastVoiceResult) {
-  content.value = (voiceBaseText + " " + newVoiceResult).trim();
-  lastVoiceResult = newVoiceResult;
-}
-
-  status.textContent = interimText
-    ? "인식 중: " + interimText
-    : "말씀해 주세요. 음성 입력을 계속하고 있습니다.";
-};
   recognition.onerror = function(event) {
     status.textContent = "음성인식 오류: " + event.error +
       ". 마이크 권한과 인터넷 연결을 확인해 주세요.";
   };
 
   
-
 recognition.onend = function() {
   voiceRecognition = null;
   button.textContent = "🎤 말로 제보하기";
-  status.textContent = "음성 입력이 종료되었습니다.";
+
+  if (!status.textContent.includes("오류")) {
+    status.textContent =
+      "음성 입력이 종료되었습니다. 더 말씀하시려면 마이크 버튼을 다시 누르세요. 입력된 내용을 확인한 후 제보해 주세요.";
+  }
 };
+
+
   recognition.start();
 }
 
@@ -850,17 +836,14 @@ function startVoiceField(fieldId, statusId) {
   }
 
   if (voiceRecognition) {
-  voiceRecognition.manuallyStopped = true;
-  voiceRecognition.stop();
-  status.textContent = "음성 입력을 끝내고 있습니다.";
-  return;
-}
+    status.textContent = "다른 음성입력이 진행 중입니다. 잠시 후 다시 눌러주세요.";
+    return;
+  }
 
   const recognition = new SpeechRecognition();
   voiceRecognition = recognition;
-  recognition.manuallyStopped = false;
   recognition.lang = "ko-KR";
-  recognition.continuous = true;
+  recognition.continuous = false;
   recognition.interimResults = false;
 
   recognition.onstart = function() {
@@ -878,24 +861,13 @@ function startVoiceField(fieldId, statusId) {
   };
 
   recognition.onend = function() {
-  if (voiceRecognition === recognition &&
-      !recognition.manuallyStopped) {
-    status.textContent = "잠시 쉬셔도 됩니다. 다시 듣고 있습니다.";
-    try {
-      recognition.start();
-      return;
-    } catch (error) {
-      console.log("음성인식 재시작 실패:", error);
-    }
-  }
-  }
-  if (voiceRecognition === recognition) {
     voiceRecognition = null;
-  }
-  status.textContent = "음성 입력이 종료되었습니다.";
-};
+    if (status.textContent.includes("인식하고")) {
+      status.textContent = "음성 입력이 종료되었습니다. 다시 말하려면 버튼을 눌러주세요.";
+    }
+  };
 
- recognition.start();
+  recognition.start();
 }
 
   </script>
