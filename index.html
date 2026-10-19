@@ -36,16 +36,13 @@
     /* 상단 */
     .hero {
       position: relative;
-      min-height: 235px;
+      min-height: 420px;
       padding: 28px 22px 25px;
       overflow: hidden;
-     background: linear-gradient(
-  180deg,
-  #70c8f5 0%,
-  #b9eaff 45%,
-  #e6f9ff 75%,
-  #b6e8aa 100%
-);
+    background-image: url("강동배경.png");
+background-size: cover;
+background-position: center top;
+background-repeat: no-repeat;
     }
 
     .hero::after {
@@ -60,6 +57,7 @@
     }
 
     .hero-small {
+      display: none;
       position: relative;
       z-index: 2;
       font-size: 14px;
@@ -380,24 +378,8 @@
 <div class="app">
 
   <header class="hero">
-    <div class="hero-small">강동엄마 박춘선 시의원과</div>
-
-    <h1>
-  <h1>
-<span>함께 & 가치</span>
-</h1>
-
-    <div class="hero-text">
- 이로운 강동구를 만들어요.
-</div>
-
-    <div class="photo-space">
-  <img src="의원사진.png"
-       alt="박춘선 시의원"
-       style="width:100%; height:auto; object-fit:contain;">
-</div>
  
-<a href="signup.html" style="display:inline-block; margin:12px 0; padding:10px 18px; background:#e94b8b; color:white; border-radius:20px; text-decoration:none; font-size:14px; font-weight:bold;">
+<a href="signup.html" style="display:inline-block; position:absolute; right:15px; bottom:15px; margin:0; padding:10px 18px; background:#e94b8b; color:white; border-radius:20px; text-decoration:none; font-size:14px; font-weight:bold;">
 🔐 회원가입
 </a>
 
