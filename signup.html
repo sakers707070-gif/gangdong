@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>박춘선 웹앱 회원가입</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      background: #f5f7fa;
+      color: #172033;
+    }
+    .container {
+      max-width: 440px;
+      margin: 0 auto;
+      padding: 35px 20px;
+      text-align: center;
+    }
+    .logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 22px;
+    }
+    h1 { font-size: 25px; }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 25px 20px;
+      margin-top: 25px;
+      box-shadow: 0 3px 12px #00000012;
+    }
+    .btn {
+      display: block;
+      padding: 17px;
+      margin-top: 15px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      background: #e94b8b;
+      color: white;
+    }
+    .admin { background: #334155; }
+    .home { background: #e5e7eb; color: #222; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <img class="logo" src="박춘선.png" alt="박춘선 웹앱 아이콘">
+    <h1>강동엄마 박춘선 시의원</h1>
+    <p>주민과 함께하는 소통 공간</p>
+
+    <div class="card">
+      <h2>회원가입 및 로그인</h2>
+      <p>원하시는 메뉴를 선택해 주세요.</p>
+
+      <a class="btn" href="#" onclick="alert('주민 회원가입 기능은 준비 중입니다.'); return false;">
+        주민 회원가입
+      </a>
+
+      <a class="btn admin" href="admin.html">
+        관리자 로그인
+      </a>
+
+      <a class="btn home" href="index.html">
+        홈으로 돌아가기
+      </a>
+    </div>
+  </main>
+</body>
+</html>
