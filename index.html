@@ -39,7 +39,7 @@
       min-height: 620px;
       padding: 28px 22px 25px;
       overflow: hidden;
-    background-image: url("강동배경.png");
+    background-image: url("강동새배경.png");
 background-size: 100% 100%;
 background-position: center top;
 background-repeat: no-repeat;
@@ -144,17 +144,34 @@ background-repeat: no-repeat;
 }
 
 .quick-item:nth-child(1) {
-  background: #fff0f6;
+  background: #ff4565;
+  color: white;
 }
 
 .quick-item:nth-child(2) {
-  background: #eef6ff;
+  background: #1688f5;
+  color: white;
 }
 
 .quick-item:nth-child(3) {
-  background: #eefaf5;
+  background: #20ba57;
+  color: white;
 }
 
+.quick-item:nth-child(4) {
+  background: #ffa500;
+  color: white;
+}
+
+.quick-item:nth-child(5) {
+  background: #9060e8;
+  color: white;
+}
+
+.quick-item:nth-child(6) {
+  background: #09bdb7;
+  color: white;
+}
     .quick-icon {
       width: 48px;
       height: 48px;
@@ -385,29 +402,49 @@ background-repeat: no-repeat;
 
   </header>
 
-  <div class="quick-wrap">
-    <div class="quick-menu">
+ 
+<div class="quick-wrap">
+  <div class="quick-menu">
 
-      <div class="quick-item" onclick="openReportForm()">
-        <div class="quick-icon">🚨</div>
-        <div class="quick-title">강동구가 아파요</div>
-        <div class="quick-sub">생활불편 제보</div>
-      </div>
-
-      <div class="quick-item" onclick="goSection('wish')">
-        <div class="quick-icon">💬</div>
-        <div class="quick-title">박춘선 의원에게 바래요</div>
-        <div class="quick-sub">정책·지역 의견</div>
-      </div>
-
-      <div class="quick-item" onclick="goSection('solved')">
-        <div class="quick-icon">✓</div>
-        <div class="quick-title">이렇게 해결했어요</div>
-        <div class="quick-sub">처리·해결 소식</div>
-      </div>
-
+    <div class="quick-item" onclick="document.querySelector('.notice').scrollIntoView({behavior:'smooth'})">
+      <div class="quick-icon">📢</div>
+      <div class="quick-title">공지사항</div>
+      <div class="quick-sub">의원 소식과 주요 안내</div>
     </div>
+
+    <div class="quick-item" onclick="openReportForm()">
+      <div class="quick-icon">🚨</div>
+      <div class="quick-title">제보하기</div>
+      <div class="quick-sub">생활 속 불편사항을 제보해주세요.</div>
+    </div>
+
+    <div class="quick-item" onclick="goSection('solved')">
+      <div class="quick-icon">✅</div>
+      <div class="quick-title">해결했어요</div>
+      <div class="quick-sub">처리·해결된 소식을 확인하세요.</div>
+    </div>
+
+    <div class="quick-item" onclick="location.href='community.html'">
+      <div class="quick-icon">💬</div>
+      <div class="quick-title">서로 소통해요</div>
+      <div class="quick-sub">주민 여러분의 의견을 나눠주세요.</div>
+    </div>
+
+    <div class="quick-item" onclick="alert('인센티브 기능은 준비 중입니다.')">
+      <div class="quick-icon">🏅</div>
+      <div class="quick-title">나의 인센티브</div>
+      <div class="quick-sub">참여하고 포인트를 받아보세요.</div>
+    </div>
+
+    <div class="quick-item" onclick="location.href='signup.html'">
+      <div class="quick-icon">🔐</div>
+      <div class="quick-title">회원가입</div>
+      <div class="quick-sub">회원으로 가입해 주세요.</div>
+    </div>
+
   </div>
+</div>
+  
 
   <div class="notice">
     <span class="notice-badge">공지</span>
