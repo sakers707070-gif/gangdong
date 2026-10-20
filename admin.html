@@ -105,6 +105,19 @@
     <button onclick="adminLogin()">로그인</button>
     <p id="loginMessage"></p>
 </div>
+  
+<div id="adminMenu" style="display:none; text-align:center; margin:25px auto;">
+  <button type="button" onclick="showAdminSection('reports')"
+    style="padding:16px; margin:6px; background:#1c315b; color:white; border:0; border-radius:12px; font-size:17px;">
+    📋 주민제보 관리
+  </button>
+
+  <button type="button" onclick="showAdminSection('notices')"
+    style="padding:16px; margin:6px; background:#e9438b; color:white; border:0; border-radius:12px; font-size:17px;">
+    📢 공지사항 관리
+  </button>
+</div>
+
   <div id="reportList" style="display:none;"></div>
   
 <div id="noticeAdmin" style="display:none; background:white; padding:20px; margin:20px auto; max-width:800px; border-radius:14px;">
@@ -134,7 +147,9 @@ document.getElementById("loginMessage").textContent =
   "관리자 로그인에 성공했습니다.";
       await loadReports();
       
-document.getElementById("noticeAdmin").style.display = "block";
+document.getElementById("noticeAdmin").style.display = "none";
+
+document.getElementById("adminMenu").style.display = "block";
 
       }
     async function loadReports() {
@@ -147,7 +162,7 @@ document.getElementById("noticeAdmin").style.display = "block";
   return;
 }
       const reportList = document.getElementById("reportList");
-reportList.style.display = "block";
+reportList.style.display = "none";
      const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;",
   '"': "&quot;", "'": "&#39;"
@@ -315,5 +330,21 @@ async function saveNotice() {
 }
 
   </script>
+
+<script>
+function showAdminSection(section) {
+  const reports = document.getElementById("reportList");
+  const notices = document.getElementById("noticeAdmin");
+
+  if (section === "reports") {
+    reports.style.display = "block";
+    notices.style.display = "none";
+  } else if (section === "notices") {
+    reports.style.display = "none";
+    notices.style.display = "block";
+  }
+}
+</script>
+
 </body>
 </html>
