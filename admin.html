@@ -106,6 +106,15 @@
     <p id="loginMessage"></p>
 </div>
   <div id="reportList" style="display:none;"></div>
+  
+<div id="noticeAdmin" style="display:none; background:white; padding:20px; margin:20px auto; max-width:800px; border-radius:14px;">
+  <h2>📢 공지사항 등록</h2>
+  <input id="noticeTitle" type="text" placeholder="공지사항 제목" style="width:100%; padding:12px; box-sizing:border-box; margin-bottom:10px;">
+  <textarea id="noticeContent" placeholder="공지사항 내용을 입력하세요" style="width:100%; height:130px; padding:12px; box-sizing:border-box;"></textarea>
+  <button type="button" onclick="saveNotice()">공지사항 등록하기</button>
+  <p id="noticeMessage"></p>
+</div>
+
 
   <script>
     async function adminLogin() {
@@ -124,6 +133,9 @@
 document.getElementById("loginMessage").textContent =
   "관리자 로그인에 성공했습니다.";
       await loadReports();
+      
+document.getElementById("noticeAdmin").style.display = "block";
+
       }
     async function loadReports() {
   const { data, error } = await supabaseClient
@@ -265,6 +277,43 @@ const items = (await Promise.all(data.map(async report => {
 
   alert("주민 홈페이지에 공개되었습니다.");
 }  
-</script>
+
+async function saveNotice() {
+  const title = document.getElementById("noticeTitle").value.trim();
+  const content = document.getElementById("noticeContent").value.trim();
+  const message = document.getElementById("noticeMessage");
+
+  if (!title || !content) {
+    message.textContent = "제목과 내용을 모두 입력해 주세요.";
+    return;
+  }
+
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError || !user) {
+    message.textContent = "관리자 로그인이 필요합니다.";
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("notices")
+    .insert({
+      title: title,
+      content: content
+    });
+
+  if (error) {
+    console.error(error);
+    message.textContent = "등록 실패: " + error.message;
+    return;
+  }
+
+  message.textContent = "공지사항이 등록되었습니다.";
+  document.getElementById("noticeTitle").value = "";
+  document.getElementById("noticeContent").value = "";
+}
+
+  </script>
 </body>
 </html>
