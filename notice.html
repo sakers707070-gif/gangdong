@@ -116,6 +116,13 @@ async function loadNotices() {
     const title = document.createElement("h3");
     title.textContent = item.title;
 
+const date = document.createElement("div");
+date.className = "date";
+date.textContent = "등록일: " +
+  new Date(item.created_at).toLocaleDateString("ko-KR", {
+    timeZone: "Asia/Seoul"
+  });
+
     const content = document.createElement("div");
     content.className = "detail";
     content.style.display = "none";
@@ -127,7 +134,7 @@ card.addEventListener("click", () => {
   toggleNotice(card);
 });
 
-card.append(title, content);
+card.append(title, date, content);
 
     noticeList.appendChild(card);
   });
