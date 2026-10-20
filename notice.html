@@ -118,11 +118,15 @@ async function loadNotices() {
 
     const content = document.createElement("div");
     content.className = "detail";
-    content.style.display = "block";
+    content.style.display = "none";
     content.textContent = item.content;
     content.style.whiteSpace = "pre-wrap";
 
-    card.append(title, content);
+    
+card.addEventListener("click", () => {
+  toggleNotice(card);
+});
+
     noticeList.appendChild(card);
   });
 }
