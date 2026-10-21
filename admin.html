@@ -118,6 +118,21 @@
   </button>
 </div>
 
+  
+<div id="departmentFilterBox" style="display:none; padding:15px; background:white; margin-bottom:10px;">
+  <strong>담당부서별 제보 조회</strong>
+  <select id="departmentFilter" onchange="loadReports()" style="display:block; width:220px; height:42px; margin-top:10px;">
+    <option value="전체">전체 제보</option>
+    <option value="미분류">미분류</option>
+    <option value="도로·교통">도로·교통</option>
+    <option value="환경·청소">환경·청소</option>
+    <option value="공원·녹지">공원·녹지</option>
+    <option value="복지">복지</option>
+    <option value="안전·시설">안전·시설</option>
+    <option value="기타">기타</option>
+  </select>
+</div>
+
   <div id="reportList" style="display:none;"></div>
   
 <div id="noticeAdmin" style="display:none; background:white; padding:20px; margin:20px auto; max-width:800px; border-radius:14px;">
@@ -168,7 +183,15 @@ reportList.style.display = "none";
   '"': "&quot;", "'": "&#39;"
 }[ch]));
 
-const items = (await Promise.all(data.map(async report => {
+
+const selectedDepartment = document.getElementById("departmentFilter")?.value || "전체";
+const filteredData = selectedDepartment === "전체"
+  ? data
+  : data.filter(report =>
+      (report.department || "미분류") === selectedDepartment
+    );
+
+      const items = (await Promise.all(filteredData.map(async report => {
   let photoHtml = "";
 
   if (report.photo_path) {
@@ -372,6 +395,9 @@ async function saveNotice() {
 function showAdminSection(section) {
   const reports = document.getElementById("reportList");
   const notices = document.getElementById("noticeAdmin");
+
+document.getElementById("departmentFilterBox").style.display =
+  section === "reports" ? "block" : "none";
 
   if (section === "reports") {
     reports.style.display = "block";
