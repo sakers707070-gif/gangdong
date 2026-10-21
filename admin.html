@@ -216,7 +216,11 @@ const filteredData = selectedDepartment === "전체"
       (report.department || "미분류") === selectedDepartment
     );
 
-      const items = (await Promise.all(filteredData.map(async report => {
+      const selectedStatus = document.getElementById("statusFilter")?.value || "전체";
+      const statusFilteredData = selectedStatus === "전체"
+  ? filteredData
+  : filteredData.filter(report => (report.status || "접수") === selectedStatus);
+      const items = (await Promise.all(statusFilteredData.map(async report => {
   let photoHtml = "";
 
   if (report.photo_path) {
