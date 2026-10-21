@@ -190,7 +190,9 @@ const stats = document.getElementById("reportStats");
 const statsContent = document.getElementById("reportStatsContent");
 
 const total = data.length;
-const received = data.filter(r => (r.status || "접수") === "접수").length;
+
+const received = data.filter(r => (r.status || "접수").replace(/['‘’]/g, "").trim() === "접수").length;
+
 const processing = data.filter(r => r.status === "처리 중").length;
 const completed = data.filter(r => r.status === "해결 완료").length;
 
