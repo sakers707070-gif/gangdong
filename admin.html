@@ -133,6 +133,15 @@
   </select>
 </div>
 
+  
+<div id="reportStats"
+     style="display:none; background:white; padding:15px; margin-bottom:10px; border-radius:10px;">
+  <h3>📊 주민제보 처리현황</h3>
+  <div id="reportStatsContent">
+    제보 현황을 불러오는 중입니다.
+  </div>
+</div>
+
   <div id="reportList" style="display:none;"></div>
   
 <div id="noticeAdmin" style="display:none; background:white; padding:20px; margin:20px auto; max-width:800px; border-radius:14px;">
@@ -176,6 +185,20 @@ document.getElementById("adminMenu").style.display = "block";
   console.error("제보 불러오기 오류:", error);
   return;
 }
+      
+const stats = document.getElementById("reportStats");
+const statsContent = document.getElementById("reportStatsContent");
+
+const total = data.length;
+const received = data.filter(r => (r.status || "접수") === "접수").length;
+const processing = data.filter(r => r.status === "처리 중").length;
+const completed = data.filter(r => r.status === "해결 완료").length;
+
+statsContent.textContent =
+  `전체 ${total}건 | 접수 ${received}건 | 처리 중 ${processing}건 | 해결 완료 ${completed}건`;
+
+stats.style.display = "block";
+
       const reportList = document.getElementById("reportList");
 reportList.style.display = "none";
      const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
