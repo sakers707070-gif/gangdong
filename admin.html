@@ -191,6 +191,20 @@ const items = (await Promise.all(data.map(async report => {
 </summary>
       <p><strong>장소:</strong> ${escapeHtml(report.location || "-")}</p>
       <p><strong>제보내용:</strong> ${escapeHtml(report.content || "-")}</p>
+     
+<p><strong>담당부서:</strong></p>
+<select id="department-${report.id}" style="display:block;width:220px;height:40px;margin-bottom:12px;">
+  ${["미분류","도로·교통","환경·청소","공원·녹지","복지","안전·시설","기타"].map(dept =>
+    `<option value="${dept}" ${report.department === dept ? "selected" : ""}>${dept}</option>`
+  ).join("")}
+</select>
+
+<button type="button"
+  onclick="saveDepartment(${report.id})"
+  style="padding:10px 16px;margin-bottom:15px;">
+  담당부서 저장
+</button>
+
       <p><strong>처리상태:</strong> ${escapeHtml(report.status || "접수")}</p>
       <select class="status-select" style="display:block; width:200px; height:40px; margin:10px 0; border:2px solid #333; background:white; color:black;" data-report-id="${report.id}" onchange="updateReportStatus(this.dataset.reportId, this.value)">
   <option value="접수" ${report.status === "접수" ? "selected" : ""}>접수</option>
@@ -236,7 +250,25 @@ const items = (await Promise.all(data.map(async report => {
 
   alert("처리상태가 저장되었습니다.");
 }
-  async function saveResolution(id) {
+  
+async function saveDepartment(id) {
+  const department = document.getElementById(`department-${id}`).value;
+
+  const { error } = await supabaseClient
+    .from("reports")
+    .update({ department: department })
+    .eq("id", id);
+
+  if (error) {
+    alert("담당부서 저장에 실패했습니다.");
+    console.error(error);
+    return;
+  }
+
+  alert("담당부서가 저장되었습니다.");
+}
+
+    async function saveResolution(id) {
   const content = document.getElementById(`resolution-${id}`).value.trim();
 
   const { error } = await supabaseClient
