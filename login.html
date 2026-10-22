@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>강동웹앱 주민 로그인</title>
+  <style>
+    body {font-family:sans-serif; background:#f3f7fb; padding:20px;}
+    .box {max-width:420px; margin:50px auto; padding:25px; background:white; border-radius:15px;}
+    h2 {text-align:center;}
+    input,button {box-sizing:border-box; width:100%; padding:15px; margin:8px 0; font-size:16px;}
+    button {background:#2563eb; color:white; border:0; border-radius:8px; cursor:pointer;}
+    a {display:block; text-align:center; margin-top:20px;}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>강동웹앱 주민 로그인</h2>
+    <input id="email" type="email" placeholder="이메일 주소" autocomplete="email">
+    <input id="password" type="password" placeholder="비밀번호" autocomplete="current-password">
+    <button id="loginBtn" onclick="residentLogin()">로그인</button>
+    <p id="message" role="status"></p>
+    <a href="signup.html">회원가입으로 돌아가기</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
+    // 다음 단계에서 signup.html의 공개용 키를 입력합니다.
+    const SUPABASE_KEY = "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm";
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function residentLogin() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+      if (!email || !password) {
+        message.textContent = "이메일과 비밀번호를 입력해주세요.";
+        return;
+      }
+      const button = document.getElementById("loginBtn");
+      button.disabled = true;
+      message.textContent = "로그인 확인 중입니다.";
+      try {
+        const {error} = await client.auth.signInWithPassword({email,password});
+        if (error) {
+          message.textContent = "로그인 실패: " + error.message;
+          return;
+        }
+        window.location.href = "index.html";
+      } catch (e) {
+        message.textContent = "서버 연결을 확인해주세요.";
+      } finally {
+        button.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
