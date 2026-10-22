@@ -121,10 +121,9 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     email: email,
     password: password,
     options: {
-      data: {
-        name: name,
-        phone: phone
-      }
+  emailRedirectTo: "https://sakers707070-gif.github.io/gangdong/",
+  data: { name, phone }
+}
     }
   });
 
