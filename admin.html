@@ -132,7 +132,16 @@
     <option value="기타">기타</option>
   </select>
 </div>
-
+<div id="statusFilterBox" style="display:none; padding:15px; background:white; margin-bottom:10px;">
+  <strong>처리상태별 제보 조회</strong>
+  <select id="statusFilter" onchange="loadReports()"
+    style="display:block; width:220px; height:42px; margin-top:10px;">
+    <option value="전체">전체 제보</option>
+    <option value="접수">접수</option>
+    <option value="처리 중">처리 중</option>
+    <option value="해결 완료">해결 완료</option>
+  </select>
+</div>
   
 <div id="reportStats"
      style="display:none; background:white; padding:15px; margin-bottom:10px; border-radius:10px;">
@@ -425,8 +434,13 @@ function showAdminSection(section) {
   const reports = document.getElementById("reportList");
   const notices = document.getElementById("noticeAdmin");
 
+
 document.getElementById("departmentFilterBox").style.display =
   section === "reports" ? "block" : "none";
+
+document.getElementById("statusFilterBox").style.display =
+  section === "reports" ? "block" : "none";
+
 
   if (section === "reports") {
     reports.style.display = "block";
