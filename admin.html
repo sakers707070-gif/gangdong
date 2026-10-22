@@ -150,7 +150,7 @@
     제보 현황을 불러오는 중입니다.
   </div>
 </div>
-<button type="button" onclick="exportReportsToExcel()">📥 주민제보 엑셀 저장</button>
+<button type="button" id="exportReportsButton" style="display:none;" onclick="exportReportsToExcel()">📥 주민제보 엑셀 저장</button>
   <div id="reportList" style="display:none;"></div>
   
 <div id="noticeAdmin" style="display:none; background:white; padding:20px; margin:20px auto; max-width:800px; border-radius:14px;">
@@ -491,7 +491,8 @@ document.getElementById("departmentFilterBox").style.display =
 document.getElementById("statusFilterBox").style.display =
   section === "reports" ? "block" : "none";
 
-
+document.getElementById("exportReportsButton").style.display =
+  section === "reports" ? "block" : "none";
   if (section === "reports") {
     reports.style.display = "block";
     notices.style.display = "none";
