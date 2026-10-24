@@ -960,7 +960,7 @@ function startVoiceField(fieldId, statusId) {
   );
 
   const { data: { user }, error } = await client.auth.getUser();
-  if (error || !user) return;
+ if (error || !user) { console.log("로그인 확인 실패:", error); return; }
 
   welcome.textContent =
     (user.user_metadata?.name || "주민") + "님, 환영합니다.";
