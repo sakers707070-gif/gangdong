@@ -783,6 +783,7 @@ if (photo) {
     return;
   }
 }
+        const { data: { user } } = await supabaseClient.auth.getUser();
   const { error } = await supabaseClient
     .from("reports")
     .insert([
@@ -790,7 +791,8 @@ if (photo) {
         title: title,
       
         content: content,
-        photo_path: photoPath
+       photo_path: photoPath,
+user_id: user ? user.id : null
       }
     ]);
 
