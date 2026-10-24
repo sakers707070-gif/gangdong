@@ -757,7 +757,7 @@ function openReportForm() {
 }
       async function submitReport() {
   const title = document.getElementById("reportTitle").value.trim();
-  const location = document.getElementById("reportLocation").value.trim();
+  
   const content = document.getElementById("reportContent").value.trim();
         const photo = document.getElementById("reportPhoto").files[0];
 
@@ -788,7 +788,7 @@ if (photo) {
     .insert([
       {
         title: title,
-        location: location,
+      
         content: content,
         photo_path: photoPath
       }
@@ -803,7 +803,7 @@ if (photo) {
   alert("제보가 정상적으로 접수되었습니다. 감사합니다.");
 
   document.getElementById("reportTitle").value = "";
-  document.getElementById("reportLocation").value = "";
+
   document.getElementById("reportContent").value = "";
 document.getElementById("reportPhoto").value = "";
   closeReportForm();
