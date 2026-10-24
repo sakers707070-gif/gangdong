@@ -839,7 +839,7 @@ function startVoiceReport() {
 
   recognition.onstart = function() {
     status.textContent = "말씀해 주세요. 음성을 글자로 변환하고 있습니다.";
-    button.textContent = "■ 음성 입력 끝내기";
+   button.textContent = "🎤";
   };
 
   recognition.onresult = function(event) {
@@ -860,7 +860,7 @@ function startVoiceReport() {
   
 recognition.onend = function() {
   voiceRecognition = null;
-  button.textContent = "🎤 말로 제보하기";
+  button.textContent = "🎤 ";
 
   if (!status.textContent.includes("오류")) {
     status.textContent =
