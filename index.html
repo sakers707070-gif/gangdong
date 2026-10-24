@@ -423,7 +423,11 @@ mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
 }
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 </head>
 
 <body>
@@ -934,5 +938,44 @@ function startVoiceField(fieldId, statusId) {
 }
 
   </script>
+  
+<div id="residentLoginStatus" style="text-align:center; padding:12px; font-size:14px;" hidden>
+  <span id="residentWelcome"></span>
+  <button type="button" id="residentLogoutBtn" style="margin-left:10px; padding:8px 12px; cursor:pointer;">
+    로그아웃
+  </button>
+</div>
+
+<script>
+(async function () {
+  const status = document.getElementById("residentLoginStatus");
+  const welcome = document.getElementById("residentWelcome");
+  const logout = document.getElementById("residentLogoutBtn");
+
+  if (!window.supabase) return;
+
+  const client = supabase.createClient(
+    "https://ocdcolatdqdhbtlaczqu.supabase.co",
+    "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm"
+  );
+
+  const { data: { user }, error } = await client.auth.getUser();
+  if (error || !user) return;
+
+  welcome.textContent =
+    (user.user_metadata?.name || "주민") + "님, 환영합니다.";
+  status.hidden = false;
+
+  logout.addEventListener("click", async function () {
+    const { error } = await client.auth.signOut();
+    if (error) {
+      alert("로그아웃에 실패했습니다.");
+      return;
+    }
+    window.location.href = "signup.html";
+  });
+})();
+</script>
+
 </body>
 </html>
