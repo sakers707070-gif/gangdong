@@ -561,11 +561,52 @@ document.getElementById("exportReportsButton").style.display =
     reports.style.display = "none";
     notices.style.display = "block";
   } else if (section === "community") {
+    loadCommunityPosts();
     reports.style.display = "none";
     notices.style.display = "none";
 
   }
 }
+async function loadCommunityPosts() {
+  const list = document.getElementById("communityAdminList");
+  list.textContent = "게시글을 불러오는 중입니다.";
+
+  const { data, error } = await supabaseClient
+    .from("community_posts")
+    .select("id, title, content, author_name, is_visible, created_at")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    list.textContent = "게시글 조회 오류: " + error.message;
+    return;
+  }
+
+  list.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    list.textContent = "조회할 게시글이 없습니다.";
+    return;
+  }
+
+  data.forEach(post => {
+    const item = document.createElement("div");
+    item.style.cssText =
+      "padding:15px; margin:10px 0; border:1px solid #ddd; border-radius:10px;";
+
+    const title = document.createElement("strong");
+    title.textContent = `[${post.id}] ${post.title || "제목 없음"}`;
+
+    const content = document.createElement("p");
+    content.textContent = post.content || "";
+
+    const status = document.createElement("p");
+    status.textContent = post.is_visible ? "공개" : "승인 대기";
+
+    item.append(title, content, status);
+    list.appendChild(item);
+  });
+}
+  
 </script>
 
 </body>
