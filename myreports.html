@@ -183,7 +183,7 @@
             })
             .eq("id", report.id)
             .eq("user_id", currentUser.id)
-            .eq("status", "접수");
+           .eq("status", report.status);
 
           if (error) {
             alert("수정 실패: " + error.message);
