@@ -51,10 +51,74 @@
 
     <div class="card">
       <h2>📋 스탬프 적립 내역</h2>
-     <p id="stampCount">적립된 스탬프: 확인 중...</p>
+   <div id="stampHistory">적립 내역을 확인하는 중...</div>
     </div>
 
     <a class="back" href="index.html">← 강동웹앱 홈으로</a>
   </div>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
+ const SUPABASE_KEY = "sb_publishable_lAayL_opCjkcmH9NA06fzw_EoCITwdm"; 
+  const client = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+  async function loadMyStamps() {
+  const { data: { user }, error: authError } =
+    await client.auth.getUser();
+
+  if (authError || !user) {
+    document.getElementById("stampCount").textContent =
+      "로그인 후 스탬프를 확인할 수 있습니다.";
+    return;
+  }
+      const { data: stamps, error } = await client
+    .from("incentive_stamps")
+    .select("report_id, created_at")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("스탬프 조회 오류:", error);
+    document.getElementById("stampCount").textContent =
+      "스탬프 내역을 불러오지 못했습니다.";
+    return;
+  }
+      const stampTotal = stamps.length;
+
+  document.getElementById("stampCount").textContent =
+    "적립된 스탬프: " + stampTotal + "/10개";
+    const filled = Math.min(stampTotal, 10);
+const circles = [];
+
+for (let i = 0; i < 10; i++) {
+  circles.push(i < filled ? "🔴" : "⭕");
+}
+
+document.getElementById("stampDisplay").innerHTML =
+  circles.slice(0, 5).join(" ") +
+  "<br>" +
+  circles.slice(5, 10).join(" ");
+      const history = document.getElementById("stampHistory");
+
+  if (stamps.length === 0) {
+    history.textContent = "아직 적립된 스탬프가 없습니다.";
+  } else {
+    history.innerHTML = stamps.map((stamp) => {
+      const date = new Date(stamp.created_at)
+        .toLocaleDateString("ko-KR");
+
+      return `<p>🏅 ${date} · 제보번호 ${stamp.report_id} · 스탬프 1개 적립</p>`;
+    }).join("");
+  }
+    }
+
+loadMyStamps();
+</script>
+
 </body>
 </html>
+
