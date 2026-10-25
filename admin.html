@@ -329,13 +329,14 @@ const filteredData = selectedDepartment === "전체"
   placeholder="주민에게 공개할 해결 내용을 입력하세요."
   style="width:100%;padding:10px;box-sizing:border-box;"
 >${escapeHtml(report.resolution_content || '')}</textarea>
+<div style="display:flex; flex-wrap:wrap; align-items:center;">
 <button
   type="button"
   onclick="saveResolution(${report.id})"
   style="margin:8px 0;padding:10px 16px;background:#e94b8b;color:white;border:0;border-radius:8px;cursor:pointer;">
   해결 내용 저장
 </button>
-<div style="display:flex; flex-wrap:wrap; align-items:center;">
+
 <button
   type="button"
   onclick="publishResolution(${report.id})"
