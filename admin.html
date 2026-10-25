@@ -116,6 +116,10 @@
     style="padding:16px; margin:6px; background:#e9438b; color:white; border:0; border-radius:12px; font-size:17px;">
     📢 공지사항 관리
   </button>
+  <button type="button" onclick="showAdminSection('community')"
+  style="padding:16px; margin:6px; background:#0d9488; color:white; border:0; border-radius:8px; cursor:pointer;">
+  💬 소통 게시글 관리
+</button>
 </div>
 
   
@@ -160,7 +164,10 @@
   <button type="button" onclick="saveNotice()">공지사항 등록하기</button>
   <p id="noticeMessage"></p>
 </div>
-
+<div id="communityAdmin" style="display:none; background:white; padding:20px; margin:20px auto;">
+  <h2>💬 소통 게시글 관리</h2>
+  <div id="communityAdminList">게시글을 불러오는 중입니다.</div>
+</div>
 
   <script>
     async function adminLogin() {
@@ -536,7 +543,8 @@ async function saveNotice() {
 function showAdminSection(section) {
   const reports = document.getElementById("reportList");
   const notices = document.getElementById("noticeAdmin");
-
+const community = document.getElementById("communityAdmin");
+community.style.display = section === "community" ? "block" : "none";
 
 document.getElementById("departmentFilterBox").style.display =
   section === "reports" ? "block" : "none";
@@ -552,6 +560,10 @@ document.getElementById("exportReportsButton").style.display =
   } else if (section === "notices") {
     reports.style.display = "none";
     notices.style.display = "block";
+  } else if (section === "community") {
+    reports.style.display = "none";
+    notices.style.display = "none";
+
   }
 }
 </script>
