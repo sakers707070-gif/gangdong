@@ -602,7 +602,27 @@ async function loadCommunityPosts() {
     const status = document.createElement("p");
     status.textContent = post.is_visible ? "공개" : "승인 대기";
 
-    item.append(title, content, status);
+    const approveButton = document.createElement("button");
+approveButton.textContent = post.is_visible ? "비공개하기" : "승인하기";
+approveButton.style.cssText =
+  "padding:10px 16px; background:#0d9488; color:white; border:0; border-radius:8px; cursor:pointer;";
+    approveButton.onclick = async () => {
+  const newStatus = !post.is_visible;
+
+  const { error } = await supabaseClient
+    .from("community_posts")
+    .update({ is_visible: newStatus })
+    .eq("id", post.id);
+
+  if (error) {
+    alert("상태 변경 실패: " + error.message);
+    return;
+  }
+
+  alert(newStatus ? "게시글이 승인되었습니다." : "게시글이 비공개되었습니다.");
+  await loadCommunityPosts();
+};
+   item.append(title, content, status, approveButton);
     list.appendChild(item);
   });
 }
