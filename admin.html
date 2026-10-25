@@ -139,7 +139,7 @@
     <option value="전체">전체 제보</option>
     <option value="접수">접수</option>
     <option value="처리 중">처리 중</option>
-    <option value="해결 완료">해결 완료</option>
+   <option value="해결 완료">해결 완료</option>
   </select>
 </div>
   
@@ -341,6 +341,12 @@ const filteredData = selectedDepartment === "전체"
   style="margin:8px;padding:10px 16px;background:#2563eb;color:white;border:0;border-radius:8px;cursor:pointer;">
   주민에게 공개하기
 </button>
+<button
+  type="button"
+  onclick="awardStamp(${report.id})"
+  style="margin:8px 0;padding:10px 16px;background:#f59e0b;color:white;border:0;border-radius:8px;cursor:pointer;">
+  🏅 스탬프 지급
+</button>
       ${photoHtml}
     </details>
   `;
@@ -361,7 +367,51 @@ const filteredData = selectedDepartment === "전체"
 
   alert("처리상태가 저장되었습니다.");
 }
-  
+  async function awardStamp(reportId) {
+  const { data: report, error: reportError } = await supabaseClient
+    .from("reports")
+    .select("id, user_id, status")
+    .eq("id", reportId)
+    .single();
+
+  if (reportError || !report) {
+    alert("제보 정보를 확인할 수 없습니다.");
+    return;
+  }
+
+  if (report.status !== "해결 완료") {
+    alert("해결 완료된 제보에만 스탬프를 지급할 수 있습니다.");
+    return;
+  }
+
+  if (!report.user_id) {
+    alert("회원 정보가 연결되지 않은 제보입니다.");
+    return;
+  }
+
+  if (!confirm("이 제보에 스탬프 1개를 지급하시겠습니까?")) {
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("incentive_stamps")
+    .insert({
+      report_id: report.id,
+      user_id: report.user_id
+    });
+
+  if (error) {
+    if (error.code === "23505") {
+      alert("이미 스탬프가 지급된 제보입니다.");
+    } else {
+      alert("스탬프 지급에 실패했습니다.");
+      console.error(error);
+    }
+    return;
+  }
+
+  alert("스탬프 1개가 지급되었습니다.");
+}
 async function saveDepartment(id) {
   const department = document.getElementById(`department-${id}`).value;
 
