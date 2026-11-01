@@ -38,6 +38,18 @@
     <div id="memberInfo">
   <p>회원정보를 불러올 준비가 되었습니다.</p>
 </div>
+    <button type="button" class="btn" id="editMemberBtn">회원정보 수정하기</button>
+    <div id="editMemberForm" hidden>
+  <p>이름</p>
+  <input type="text" id="editName" autocomplete="name">
+
+  <p>휴대전화번호</p>
+  <input type="tel" id="editPhone" autocomplete="tel">
+
+  <button type="button" class="btn" id="saveMemberBtn">
+    변경사항 저장하기
+  </button>
+</div>
     <a class="btn" href="index.html">홈으로 돌아가기</a>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -73,7 +85,64 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     memberInfo.appendChild(p);
   });
 }
+document.getElementById("editMemberBtn").addEventListener("click", async function () {
+  const { data, error } = await supabaseClient.auth.getUser();
 
+  if (error || !data.user) {
+    alert("로그인 후 이용해 주세요.");
+    return;
+  }
+
+  const user = data.user;
+
+  document.getElementById("editName").value =
+    user.user_metadata?.name || "";
+
+  document.getElementById("editPhone").value =
+    user.user_metadata?.phone || "";
+
+  document.getElementById("editMemberForm").hidden = false;
+});
+document.getElementById("saveMemberBtn").addEventListener("click", async function () {
+  const name = document.getElementById("editName").value.trim();
+  const phone = document.getElementById("editPhone").value.trim();
+
+  if (!name || !phone) {
+    alert("이름과 휴대전화번호를 모두 입력해 주세요.");
+    return;
+  }
+
+  const saveBtn = document.getElementById("saveMemberBtn");
+  saveBtn.disabled = true;
+
+  try {
+    const { data: userData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError || !userData.user) {
+      alert("로그인 후 이용해 주세요.");
+      return;
+    }
+
+    const { error } = await supabaseClient.auth.updateUser({
+      data: { name, phone }
+    });
+
+    if (error) {
+      alert("저장에 실패했습니다. 다시 시도해 주세요.");
+      return;
+    }
+
+    alert("회원정보가 수정되었습니다.");
+    document.getElementById("editMemberForm").hidden = true;
+    await loadMemberInfo();
+
+  } catch (error) {
+    alert("저장 중 오류가 발생했습니다.");
+  } finally {
+    saveBtn.disabled = false;
+  }
+});    
 loadMemberInfo();
 </script>
 </body>
