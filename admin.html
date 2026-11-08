@@ -540,7 +540,7 @@ for (const file of files) {
   const uploadedFiles = [];
 
 for (const file of files) {
-  const filePath = `${crypto.randomUUID()}/${file.name}`;
+  const filePath = `${crypto.randomUUID()}/${crypto.randomUUID()}.${file.name.split(".").pop().toLowerCase()}`;
 
   const { error: uploadError } = await supabaseClient.storage
     .from("notice-file")
