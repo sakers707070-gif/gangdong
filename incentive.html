@@ -26,11 +26,29 @@
       box-shadow: 0 2px 10px #ddd;
     }
     .stamps {
-  font-size: 42px;
+  font-size: clamp(20px, 7vw, 42px);
   margin: 20px 0;
-  letter-spacing: 6px;
-  white-space: nowrap;
-     line-height: 1.7; 
+  letter-spacing: 0;
+  white-space: normal;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+   .stamp {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+    #stampDisplay {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px 6px;
+  width: 100%;
+  max-width: 360px;
+  margin: 20px auto;
+  text-align: center;
+  font-size: clamp(22px, 6vw, 36px);
+  letter-spacing: 0;
+  white-space: normal;
 }
     .back {
       display: block;
@@ -45,7 +63,18 @@
 
     <div class="card">
       <h2>나의 스탬프</h2>
-     <div class="stamps" id="stampDisplay">⭕ ⭕ ⭕ ⭕ ⭕<br>⭕ ⭕ ⭕ ⭕ ⭕</div>
+     <div class="stamps" id="stampDisplay">
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+  <span>◯</span>
+</div>
     <p id="stampCount">적립된 스탬프: 확인 중...</p>
     </div>
 
@@ -95,13 +124,11 @@ const SUPABASE_URL = "https://ocdcolatdqdhbtlaczqu.supabase.co";
 const circles = [];
 
 for (let i = 0; i < 10; i++) {
-  circles.push(i < filled ? "🔴" : "⭕");
+  circles.push(i < filled ? "🏅" : "⚪");
 }
 
 document.getElementById("stampDisplay").innerHTML =
-  circles.slice(0, 5).join(" ") +
-  "<br>" +
-  circles.slice(5, 10).join(" ");
+  circles.map(circle => `<span>${circle}</span>`).join("");
       const history = document.getElementById("stampHistory");
 
   if (stamps.length === 0) {
