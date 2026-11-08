@@ -86,7 +86,7 @@ async function loadNotices() {
 
   const { data, error } = await client
     .from("notices")
-    .select("title, content, created_at")
+   .select("id, title, content, created_at")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -102,6 +102,13 @@ async function loadNotices() {
     return;
   }
 
+  const { data: attachments, error: attachmentError } = await client
+  .from("notice_attachments")
+  .select("notice_id, file_name, file_path");
+
+if (attachmentError) {
+  console.error("첨부파일 조회 오류:", attachmentError);
+}
   data.forEach(item => {
     const card = document.createElement("div");
     card.className = "notice";
@@ -121,12 +128,36 @@ date.textContent = "등록일: " +
     content.style.display = "none";
     content.textContent = item.content;
     content.style.whiteSpace = "pre-wrap";
+const fileList = document.createElement("div");
+fileList.style.marginTop = "12px";
+    const noticeFiles = (attachments || []).filter(
+  file => file.notice_id === item.id
+);
+ noticeFiles.forEach(file => {
+  const link = document.createElement("a");
 
+  const { data: urlData } = client.storage
+    .from("notice-file")
+    .getPublicUrl(file.file_path);
+
+  link.href = urlData.publicUrl;
+  link.textContent = "📎 " + file.file_name;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.style.display = "block";
+  link.style.marginBottom = "8px";
+
+
+   fileList.appendChild(link);
+});   
     
 card.addEventListener("click", () => {
   toggleNotice(card);
 });
-
+fileList.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+content.appendChild(fileList);
 card.append(title, date, content);
 
     noticeList.appendChild(card);
